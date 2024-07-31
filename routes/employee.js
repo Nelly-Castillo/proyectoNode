@@ -52,6 +52,19 @@ employee.patch('/:id([0-9]{1,3})', async (req, res, next) => {
     } return res.status(500).json({code: 500, message:"Campos incompletos"})
 })
 
+employee.get('/search', async (req, res, next) => {
+    const  search = req.query.q;
+    if (!search) {
+        return res.status(400).json({code:400, message: "Falta información de busqueda"})
+    } try {
+        const query = "SELECT * FROM  employees WHERE employee_name LIKE ?";
+        const values = [`%${search}%`];
+        return res.status(200).json({code: 200, message: results});
+    } catch (error){
+        return res.status(200).json({code: 500, message: "Ocurrio un error"})
+    }
+})
+
 employee.get('/', async(req, res, next) => {
     const emp = await db.query("SELECT * FROM employees;");
     return res.status(200).json({code: 200, message: emp})
