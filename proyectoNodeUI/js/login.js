@@ -25,7 +25,6 @@ function login (){
             user_password: pass
         }
     }).then(function(res){
-        console.log(res.data);
         if(res.data.code == 200){
             localStorage.setItem("token", res.data.message);
             window.location.href = "employee.html";

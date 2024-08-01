@@ -24,7 +24,6 @@ function signin(){
             user_password: pass
         }
     }).then(function(res){
-        console.log(res);
         alert("Registro exitoso")
         window.location.href = "login.html"
     }).catch(function(error){

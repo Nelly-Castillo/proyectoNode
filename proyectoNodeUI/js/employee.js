@@ -20,8 +20,8 @@ function init (){
 
 function loadEmploye(){
     axios.get(url + "/employee", headers).then(function(res){
-        console.log(res);
         displayEmploye(res.data.message);
+        setupCreateButton();
         setupSearchButton();
     }).catch(function(error){
         console.log(error);
@@ -39,10 +39,28 @@ function setupSearchButton() {
     }
 }
 
-function displayEmploye(employee){
-    var body = document.querySelector("body");
-    for(var i=0; i< employee.length; i++){
-        body.innerHTML += `<h3>${employee[i].employee_name}</h3>`
+function setupCreateButton() {
+    const searchButton = document.querySelector('.btn-primary');
+    if (searchButton) {
+        searchButton.addEventListener('click', function() {
+            window.location.href = "create.html";
+        });
+    } else {
+        console.error('No entra el eventlistener');
     }
+}
+
+function displayEmploye(employees){
+    var employeesList = document.getElementById('employees-list');
+    employeesList.innerHTML = ''; // Limpiar la lista antes de llenarla
+    employees.forEach(employee => {
+        var employeeElement = document.createElement('h3');
+        employeeElement.textContent = employee.employee_name;
+        employeeElement.style.cursor = 'pointer';
+        employeeElement.addEventListener('click', function() {
+            window.location.href = `edit.html?id=${employee.employee_id}`;
+        });
+        employeesList.appendChild(employeeElement);
+    });
 }
 
